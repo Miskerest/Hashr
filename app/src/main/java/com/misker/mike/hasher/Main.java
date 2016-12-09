@@ -31,7 +31,6 @@ import java.io.InputStream;
 public class Main extends AppCompatActivity {
 
     private static final int READ_REQUEST_CODE = 42;
-    private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 420;
     ClipboardManager clipboard;
     private Uri fileURI;
     private InputStream is;
@@ -182,9 +181,6 @@ public class Main extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent resultData) {
 
         super.onActivityResult(requestCode, resultCode, resultData);
-
-      //  requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-          //      MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
 
         if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK && resultData != null) {
 
