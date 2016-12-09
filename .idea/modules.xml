@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Hasher2.iml" filepath="$PROJECT_DIR$/Hasher2.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/org.apache.commons.codec.digest.digestutils/org.apache.commons.codec.digest.digestutils.iml" filepath="$PROJECT_DIR$/org.apache.commons.codec.digest.digestutils/org.apache.commons.codec.digest.digestutils.iml" />
     </modules>
   </component>
 </project>

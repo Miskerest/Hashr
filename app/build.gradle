@@ -6,21 +6,21 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:25.0.1'
+    compile 'commons-codec:commons-codec:1.8'
+    compile 'commons-io:commons-io:2.4'
+    compile 'com.google.firebase:firebase-ads:10.0.1'
     testCompile 'junit:junit:4.12'
-    compile 'org.apache.directory.studio:org.apache.commons.codec:1.8'
-    compile 'org.apache.directory.studio:org.apache.commons.io:2.4'
-    compile 'com.android.support:appcompat-v7:21.0.2'
 }
 
 android {
-    compileSdkVersion 25
+    compileSdkVersion 23
     buildToolsVersion "25.0.1"
     defaultConfig {
-        applicationId "com.example.mike.hasher"
-        minSdkVersion 23
-        targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        applicationId "com.misker.mike.hasher"
+        minSdkVersion 21
+        targetSdkVersion 23
+        versionCode 3
+        versionName "1.0.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -45,4 +45,4 @@ android {
     }
 }
 
-
+apply plugin: 'com.google.gms.google-services'

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
@@ -8,71 +9,82 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.mike.hasher.Main">
+    tools:context="com.misker.mike.hasher.Main">
 
     <Button
-        android:text="@string/hash"
+        android:id="@+id/hashButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:id="@+id/hashButton"
+        android:layout_centerVertical="true"
+        android:text="@string/hash"
         android:textSize="14sp"
         android:typeface="monospace" />
 
-    per<TextView
+    <TextView
+        android:id="@+id/hashOutput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/hashOutput"
         android:layout_below="@+id/hashButton"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="45dp"
-    android:typeface="serif"
+    android:textAlignment="center"
+    android:textIsSelectable="true"
     android:textSize="18sp"
     android:textStyle="normal|bold"
-    android:textAlignment="center"
-    android:textIsSelectable="true" />
+    android:typeface="serif" />
 
     <Spinner
+        android:id="@+id/hashSelectionSpinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:id="@+id/hashSelectionSpinner"
-        android:entries="@array/hashtype_array"
         android:layout_above="@+id/hashButton"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="15dp"
+        android:entries="@array/hashtype_array" />
 
     <EditText
+        android:id="@+id/hashCmpText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/compare_hashes"
-        android:ems="10"
-        android:id="@+id/hashCmpText"
-        android:textAlignment="center"
-        android:inputType="text"
-        android:textIsSelectable="true"
-        android:layout_marginTop="49dp"
         android:layout_below="@+id/hashOutput"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="49dp"
+        android:width="500dp"
+        android:ems="10"
+        android:inputType="text"
+        android:labelFor="@id/hashOutput"
         android:longClickable="true"
         android:maxHeight="25dp"
         android:maxLines="5"
-        android:width="500dp"
+        android:text="@string/compare_hashes"
+        android:textAlignment="center"
+        android:textIsSelectable="true"
         android:typeface="monospace" />
 
     <Button
-        android:text="Select File"
+        android:id="@+id/fileButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:id="@+id/fileButton"
-        android:textAppearance="@style/TextAppearance.AppCompat.Button"
         android:elevation="0dp"
-        tools:ignore="HardcodedText"
-        android:typeface="monospace"
         android:minHeight="60dp"
         android:minWidth="240dip"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:text="Select File"
+        android:textAppearance="@style/TextAppearance.AppCompat.Button"
+        android:typeface="monospace"
+        tools:ignore="HardcodedText" />
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        ads:adSize="BANNER"
+        ads:adUnitId="@string/banner_ad_unit_id">
+    </com.google.android.gms.ads.AdView>
 
 </RelativeLayout>
