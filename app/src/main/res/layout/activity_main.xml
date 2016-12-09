@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.mike.hasher.Main">
+
+    <Button
+        android:text="@string/hash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/hashButton"
+        android:textSize="14sp"
+        android:typeface="monospace" />
+
+    per<TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/hashOutput"
+        android:layout_below="@+id/hashButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="45dp"
+    android:typeface="serif"
+    android:textSize="18sp"
+    android:textStyle="normal|bold"
+    android:textAlignment="center"
+    android:textIsSelectable="true" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:id="@+id/hashSelectionSpinner"
+        android:entries="@array/hashtype_array"
+        android:layout_above="@+id/hashButton"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/compare_hashes"
+        android:ems="10"
+        android:id="@+id/hashCmpText"
+        android:textAlignment="center"
+        android:inputType="text"
+        android:textIsSelectable="true"
+        android:layout_marginTop="49dp"
+        android:layout_below="@+id/hashOutput"
+        android:layout_centerHorizontal="true"
+        android:longClickable="true"
+        android:maxHeight="25dp"
+        android:maxLines="5"
+        android:width="500dp"
+        android:typeface="monospace" />
+
+    <Button
+        android:text="Select File"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:id="@+id/fileButton"
+        android:textAppearance="@style/TextAppearance.AppCompat.Button"
+        android:elevation="0dp"
+        tools:ignore="HardcodedText"
+        android:typeface="monospace"
+        android:minHeight="60dp"
+        android:minWidth="240dip"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>

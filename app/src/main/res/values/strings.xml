@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Hasher</string>
+    <string name="compare_hashes">Compare Hashes...</string>
+    <string name="filepath">Filepath:</string>
+    <string name="hash">HASH</string>
+    <string name="hashlbl">Hash:</string>
+
+    <string-array name="hashtype_array">
+        <item>MD5</item>
+        <item>SHA1</item>
+        <item>SHA256</item>
+        <item>SHA384</item>
+        <item>SHA512</item>
+    </string-array>
+
+</resources>
