@@ -10,6 +10,7 @@ dependencies {
     compile 'commons-io:commons-io:2.4'
     compile 'com.google.firebase:firebase-ads:10.0.1'
     testCompile 'junit:junit:4.12'
+    compile 'org.kie.modules:org-apache-commons-lang3:6.5.0.Final'
 }
 
 android {
@@ -19,8 +20,8 @@ android {
         applicationId "com.misker.mike.hasher"
         minSdkVersion 19
         targetSdkVersion 23
-        versionCode 4
-        versionName "1.0.3"
+        versionCode 6
+        versionName "1.1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

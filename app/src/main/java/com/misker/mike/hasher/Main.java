@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,9 +21,6 @@ import android.widget.Toast;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
-
-import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.codec.digest.DigestUtils;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -37,6 +35,9 @@ public class Main extends AppCompatActivity {
     private String hashtype = "MD5";
     private Button hashButton;
     private AdView mAdView;
+    private TextView HashCmpText;
+    protected static ProgressBar progress;
+    protected static TextView hashOutput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,17 +46,17 @@ public class Main extends AppCompatActivity {
 
         final Button fileButton = (Button) findViewById(R.id.fileButton);
         hashButton = (Button) findViewById(R.id.hashButton);
-        final TextView hashOutput = (TextView) findViewById(R.id.hashOutput);
+        hashOutput = (TextView) findViewById(R.id.hashOutput);
         final Spinner selector = (Spinner) findViewById(R.id.hashSelectionSpinner);
-        final TextView HashCmpText = (TextView) findViewById(R.id.hashCmpText);
+        HashCmpText = (TextView) findViewById(R.id.hashCmpText);
         clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        progress = (ProgressBar) findViewById(R.id.progress);
 
         HashCmpText.setText("Tap to paste reference hash");
-
         hashButton.setEnabled(false);
+        progress.setVisibility(View.INVISIBLE);
 
         MobileAds.initialize(getApplicationContext(), "ca-app-pub-5863757662079397~1363106066");
-
         mAdView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().setGender(AdRequest.GENDER_MALE).addKeyword("Encryption").build();
         mAdView.loadAd(adRequest);
@@ -70,79 +71,24 @@ public class Main extends AppCompatActivity {
 
         hashButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                try {
-                    String hash;
+                ContentResolver cr = getContentResolver();
+                HashRunnable hasher = new HashRunnable(hashtype, cr);
 
-                    if (hashtype.equals("MD5"))
-                        hash = new String(Hex.encodeHex(DigestUtils.md5(is)));
-                    else if (hashtype.equals("SHA1"))
-                        hash = new String(Hex.encodeHex(DigestUtils.sha1(is)));
-                    else if (hashtype.equals("SHA256"))
-                        hash = new String(Hex.encodeHex(DigestUtils.sha256(is)));
-                    else
-                        hash = new String(Hex.encodeHex(DigestUtils.sha512(is)));
-
-                    hashOutput.setText(hash);
-                }  catch (java.io.IOException ex) {
-                    Log.e("FileDebug", ex.getMessage());
-                } finally {
-                    ContentResolver cr = getContentResolver();
-                    try {
-                        is = cr.openInputStream(fileURI);
-                    }
-                    catch (FileNotFoundException e){
-                        Log.e("FileDebug", e.getMessage());
-                    }
-                }
-
+                hasher.execute(fileURI);
             }
         });
 
         HashCmpText.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Toast toast;
-                Context context = getApplicationContext();
-
-
-
-                if(clipboard.hasPrimaryClip())
-                    HashCmpText.setText(clipboard.getPrimaryClip().toString());
-                else {
-                    toast = Toast.makeText(context, "Clipboard empty.", Toast.LENGTH_SHORT);
-                    toast.show();
-                    return;
-                }
-
-                if(HashCmpText.getText().toString().equals(hashOutput.getText().toString()))
-                    toast = Toast.makeText(context, "Hashes match!", Toast.LENGTH_SHORT);
-                else
-                    toast = Toast.makeText(context, "Hashes do not match.", Toast.LENGTH_SHORT);
-
-                toast.show();
+                compareHashes();
             }
         });
 
         HashCmpText.setOnFocusChangeListener(new View.OnFocusChangeListener(){
             @Override
             public void onFocusChange(View view, boolean b) {
-                Toast toast;
-                Context context = getApplicationContext();
-
-                if(clipboard.hasText())
-                    HashCmpText.setText(clipboard.getText().toString());
-                else {
-                    toast = Toast.makeText(context, "Clipboard empty.", Toast.LENGTH_SHORT);
-                    toast.show();
-                    return;
-                }
-
-                if(HashCmpText.getText().toString().equals(hashOutput.getText().toString()))
-                    toast = Toast.makeText(context, "Hashes match!", Toast.LENGTH_SHORT);
-                else
-                    toast = Toast.makeText(context, "Hashes do not match.", Toast.LENGTH_SHORT);
-
-                toast.show();
+                compareHashes();
             }
         });
 
@@ -159,6 +105,26 @@ public class Main extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void compareHashes(){
+        Toast toast;
+        Context context = getApplicationContext();
+
+        if(!clipboard.hasPrimaryClip()){
+            toast = Toast.makeText(context, "Clipboard empty.", Toast.LENGTH_SHORT);
+            toast.show();
+            return;
+        }
+
+        HashCmpText.setText(clipboard.getPrimaryClip().getItemAt(0).coerceToText(getApplicationContext()));
+
+        if(HashCmpText.getText().toString().equals(hashOutput.getText().toString()))
+            toast = Toast.makeText(context, "Hashes match!", Toast.LENGTH_SHORT);
+        else
+            toast = Toast.makeText(context, "Hashes do not match.", Toast.LENGTH_SHORT);
+
+        toast.show();
     }
 
     private void showFileChooser() {

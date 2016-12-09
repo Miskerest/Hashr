@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Hasher</string>
+    <string name="Hashr">Hashr</string>
     <string name="compare_hashes">Compare Hashes…</string>
     <string name="filepath">Filepath:</string>
     <string name="hash">HASH</string>
@@ -11,6 +11,8 @@
         <item>SHA256</item>
         <item>SHA384</item>
         <item>SHA512</item>
+        <item>CRC32b</item>
+        <item>Adler32</item>
     </string-array>
 
     <string name="banner_ad_unit_id">ca-app-pub-5863757662079397/4176971663</string>
