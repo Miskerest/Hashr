@@ -32,6 +32,7 @@ I plan on adding support for:
 * A prettier UI, maybe better animations
 * An actual app icon
 * Bugfixes as they are discovered
+* Add testing code
 
 ##Screenshots
 
