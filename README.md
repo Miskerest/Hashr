@@ -20,17 +20,17 @@ Currently has support for
 * SHA256
 * SHA384
 * SHA512
-* more coming soon...
+* CRC32
+* Adler32
+* more...?
 
 ##Future
 
 I plan on adding support for:
 
-* More hashing algorithms
+* Maybe more hashing algorithms
 * A file name label
-* Threading to prevent hangs when hashing large files
 * A prettier UI, maybe better animations
-* An actual app icon
 * Bugfixes as they are discovered
 * Add testing code
 
