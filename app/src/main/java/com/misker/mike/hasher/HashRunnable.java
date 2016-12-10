@@ -57,7 +57,8 @@ public class HashRunnable extends AsyncTask<Uri, Void, String> {
                 output = new String(Hex.encodeHex(DigestUtils.sha256(is)));
             else if (type.equals("SHA384"))
                 output = new String(Hex.encodeHex(DigestUtils.sha384(is)));
-            else if (type.equals("CRC32")) {
+            else if (type.equals("CRC32b")) {
+                //Thanks to Redditor /u/thurask for finding a bug here!
                 CheckedInputStream cis = new CheckedInputStream(is, new CRC32());
                 byte[] tempBuf = new byte[128];
                 while (cis.read(tempBuf) >= 0)

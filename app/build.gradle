@@ -20,8 +20,8 @@ android {
         applicationId "com.misker.mike.hasher"
         minSdkVersion 19
         targetSdkVersion 23
-        versionCode 6
-        versionName "1.1.1"
+        versionCode 7
+        versionName "1.1.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
