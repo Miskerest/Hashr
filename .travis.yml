@@ -15,10 +15,10 @@ android:
     # Uncomment the lines below if you want to
     # use the latest revision of Android SDK Tools
      - tools
-     - tools
      - platform-tools
-     - build-tools-25.1.3
-     - android-25
+     - tools
+     - build-tools-24.0.3
+     - android-23
      - add-on
 
 script:
