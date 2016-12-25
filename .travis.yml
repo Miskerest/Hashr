@@ -9,7 +9,6 @@ cache:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
 
-
 android:
   components:
     # Uncomment the lines below if you want to
@@ -20,7 +19,7 @@ android:
      - build-tools-23.0.0
      - android-23
      - add-on
-   licenses:
+  licenses:
      - android-sdk-preview-license-52d11cd2
      - android-sdk-license-c81a61d9
      - android-sdk-license-.+
