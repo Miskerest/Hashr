@@ -1,15 +1,15 @@
-#Hasher
+# Hasher
 
-##About
+## About
 
 I made this app because I tried to download two separate apps from the Play Store to validate a system image's checksum. Neither worked, so I made my own!
 
-##Installation
+## Installation
 
 Pre-compiled apks are under `Releases`. 
 Right now it's targeted for `API 23` and above, but hopefully that will change in the future.
 
-##Usage
+## Usage
 
 Open any file and select the hashing algorithm you would like to use. Click `HASH` and the file's hash will be printed.
 If you have a reference hash, copy it to your clipboard and click on `Tap to paste...` to compare the two hashes.
@@ -24,7 +24,7 @@ Currently has support for
 * Adler32
 * more...?
 
-##Future
+## Future
 
 I plan on adding support for:
 
@@ -34,11 +34,11 @@ I plan on adding support for:
 * Bugfixes as they are discovered
 * Add testing code
 
-##Screenshots
+## Screenshots
 
 ![Screenshot](https://i.imgur.com/yMEN3jq.png)
 
-##License
+## License
 
 The MIT License (MIT)
 
