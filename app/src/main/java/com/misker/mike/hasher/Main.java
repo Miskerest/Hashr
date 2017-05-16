@@ -26,15 +26,14 @@ import com.google.android.gms.ads.MobileAds;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-
 public class Main extends AppCompatActivity {
 
     private static final int READ_REQUEST_CODE = 42;
-    protected static ProgressBar progress;
-    protected static TextView hashOutput;
+    static protected ProgressBar progress;
+    static protected TextView hashOutput;
+    static String hashresult;
     ClipboardManager clipboard;
     private Uri fileURI;
-    private InputStream is;
     private String hashtype = "MD5";
     private Button hashButton;
     private TextView HashCmpText;
@@ -121,13 +120,14 @@ public class Main extends AppCompatActivity {
                     HashRunnable hasher = new HashRunnable(hashtype, cr);
 
                     hasher.execute(fileURI);
+
                 }
                 else if(hashText.getVisibility() == View.VISIBLE){
                     String toHash = hashText.getText().toString();
-
                     HashRunnable hasher = new HashRunnable(hashtype, toHash);
 
                     hasher.execute(fileURI);
+
                 }
             }
         });
@@ -214,7 +214,7 @@ public class Main extends AppCompatActivity {
 
                 ContentResolver cr = getContentResolver();
                 try {
-                    is = cr.openInputStream(fileURI);
+                    InputStream is = cr.openInputStream(fileURI);
 
                     if(is != null)
                         hashButton.setEnabled(true);

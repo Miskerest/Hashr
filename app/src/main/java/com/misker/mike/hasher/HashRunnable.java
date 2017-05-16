@@ -24,8 +24,8 @@ import java.util.zip.CheckedInputStream;
 
 public class HashRunnable extends AsyncTask<Uri, Void, String> {
 
+    public String output = "Nice job buddy, you broke my code!";
     private String type;
-    private String output = "Nice job buddy, you broke my code!";
     private String toHash;
     private ContentResolver cr;
 
@@ -41,8 +41,9 @@ public class HashRunnable extends AsyncTask<Uri, Void, String> {
 
     @Override
     public void onPreExecute() {
-        Main.hashOutput.setText(R.string.waitText);
         Main.progress.setVisibility(View.VISIBLE);
+        Main.hashOutput.setText(R.string.waitText);
+
     }
 
     @Override
@@ -144,4 +145,5 @@ public class HashRunnable extends AsyncTask<Uri, Void, String> {
 
         return output;
     }
+
 }
