@@ -19,6 +19,7 @@ android:
      - build-tools-23.0.0
      - android-23
      - add-on
+     - extra-android-m2repository
   licenses:
      - android-sdk-preview-license-52d11cd2
      - android-sdk-license-c81a61d9
@@ -31,10 +32,7 @@ script:
 before_install:
   - "chmod +x gradlew"
 
-before_script:
-   - mkdir "$ANDROID_SDK/licenses" || true
-   - echo -e "\n94d21b24836e83551636fbd9b2cc369583d28c16" > "$ANDROID_SDK/licenses/android-sdk-license"
-   - echo -e "\n6a5f9acb095fe68bd971e299e7cf12a40dee9a13" > "$ANDROID_SDK/licenses/android-sdk-preview-license"
+#before_script:
 #  - echo no | android create avd --force -n test -t android-23 --abi armeabi-v7a
 #  - emulator -avd test -no-skin -no-audio -no-window &
 #  - android-wait-for-emulator

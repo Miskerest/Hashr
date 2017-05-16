@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -25,10 +27,11 @@ import com.google.android.gms.ads.MobileAds;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
-
 public class Main extends AppCompatActivity {
 
     private static final int READ_REQUEST_CODE = 42;
+    protected static ProgressBar progress;
+    protected static TextView hashOutput;
     ClipboardManager clipboard;
     private Uri fileURI;
     private InputStream is;
@@ -36,13 +39,17 @@ public class Main extends AppCompatActivity {
     private Button hashButton;
     private AdView mAdView;
     private TextView HashCmpText;
-    protected static ProgressBar progress;
-    protected static TextView hashOutput;
+    private TextView hashText;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        setupFileHashPane();
+
+    }
+    private void setupFileHashPane(){
 
         final Button fileButton = (Button) findViewById(R.id.fileButton);
         hashButton = (Button) findViewById(R.id.hashButton);
@@ -51,11 +58,50 @@ public class Main extends AppCompatActivity {
         HashCmpText = (TextView) findViewById(R.id.hashCmpText);
         clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
         progress = (ProgressBar) findViewById(R.id.progress);
+        hashText = (TextView) findViewById(R.id.hashText);
 
-        HashCmpText.setText("Tap to paste reference hash");
+        TabLayout tabs = (TabLayout) findViewById(R.id.tabs);
+        ViewPager pager = (ViewPager) findViewById(R.id.viewpager);
+        FixedTabsPagerAdapter adapter = new FixedTabsPagerAdapter(getSupportFragmentManager());
+
+        pager.setAdapter(adapter);
+        tabs.setupWithViewPager(pager);
+
+        tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if(tab.getText().toString().equals("Text")) {
+                    fileButton.setVisibility(View.INVISIBLE);
+                    hashText.setVisibility(View.VISIBLE);
+                    hashButton.setEnabled(true);
+                }
+                else {
+                    fileButton.setVisibility(View.VISIBLE);
+                    hashText.setVisibility(View.INVISIBLE);
+                    hashButton.setEnabled(false);
+                }
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                fileButton.setVisibility(View.VISIBLE);
+                hashText.setVisibility(View.INVISIBLE);
+                hashButton.setEnabled(true);
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+            }
+        });
+
+
+        //set visibility and initialize labels/buttons
+        HashCmpText.setText(R.string.pasteHere);
         hashButton.setEnabled(false);
         progress.setVisibility(View.INVISIBLE);
 
+        //ad init
         MobileAds.initialize(getApplicationContext(), "ca-app-pub-5863757662079397~1363106066");
         mAdView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().setGender(AdRequest.GENDER_MALE).addKeyword("Encryption").build();
@@ -71,10 +117,19 @@ public class Main extends AppCompatActivity {
 
         hashButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                ContentResolver cr = getContentResolver();
-                HashRunnable hasher = new HashRunnable(hashtype, cr);
+                if(fileButton.getVisibility() == View.VISIBLE) {
+                    ContentResolver cr = getContentResolver();
+                    HashRunnable hasher = new HashRunnable(hashtype, cr);
 
-                hasher.execute(fileURI);
+                    hasher.execute(fileURI);
+                }
+                else if(hashText.getVisibility() == View.VISIBLE){
+                    String toHash = hashText.getText().toString();
+
+                    HashRunnable hasher = new HashRunnable(hashtype, toHash);
+
+                    hasher.execute(fileURI);
+                }
             }
         });
 
@@ -104,7 +159,6 @@ public class Main extends AppCompatActivity {
                 //do nothing
             }
         });
-
     }
 
     private void compareHashes(){
@@ -127,9 +181,10 @@ public class Main extends AppCompatActivity {
         toast.show();
     }
 
+    /* File chooser for selecting files */
     private void showFileChooser() {
 
-        if (Build.VERSION.SDK_INT <19){
+        if (Build.VERSION.SDK_INT < 19){
             Intent intent = new Intent();
             intent.setType("*/*");
             intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -143,6 +198,7 @@ public class Main extends AppCompatActivity {
         }
     }
 
+    /* For selecting files for file-hashing */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent resultData) {
 
