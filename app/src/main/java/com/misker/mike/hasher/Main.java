@@ -37,7 +37,6 @@ public class Main extends AppCompatActivity {
     private InputStream is;
     private String hashtype = "MD5";
     private Button hashButton;
-    private AdView mAdView;
     private TextView HashCmpText;
     private TextView hashText;
 
@@ -70,7 +69,7 @@ public class Main extends AppCompatActivity {
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                if(tab.getText().toString().equals("Text")) {
+                if(tab.getPosition() == 1) {
                     fileButton.setVisibility(View.INVISIBLE);
                     hashText.setVisibility(View.VISIBLE);
                     hashButton.setEnabled(true);
@@ -103,7 +102,7 @@ public class Main extends AppCompatActivity {
 
         //ad init
         MobileAds.initialize(getApplicationContext(), "ca-app-pub-5863757662079397~1363106066");
-        mAdView = (AdView) findViewById(R.id.adView);
+        AdView mAdView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().setGender(AdRequest.GENDER_MALE).addKeyword("Encryption").build();
         mAdView.loadAd(adRequest);
 
