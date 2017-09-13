@@ -10,17 +10,18 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.misker.mike.hasher.Main">
+    android:windowSoftInputMode="adjustNothing">
 
-    <com.google.android.gms.ads.AdView
+    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
         android:id="@+id/adView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:visibility="visible"
         ads:adSize="BANNER"
-        ads:adUnitId="@string/banner_ad_unit_id">
-    </com.google.android.gms.ads.AdView>
+        ads:adUnitId="@string/banner_ad_unit_id" />
+
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tabs"
@@ -33,19 +34,18 @@
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="0px"
-        android:background="@android:color/white" >
-    </android.support.v4.view.ViewPager>
+        android:background="@android:color/white"></android.support.v4.view.ViewPager>
 
     <TextView
         android:id="@+id/hashOutput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/hashButton"
+        android:layout_alignTop="@+id/progress"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="55dp"
+        android:layout_marginTop="38dp"
         android:textAlignment="center"
         android:textIsSelectable="true"
-        android:textSize="18sp"
+        android:textSize="14sp"
         android:textStyle="normal|bold"
         android:typeface="monospace" />
 
@@ -56,7 +56,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/hashButton"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="7dp" />
+        android:layout_marginTop="11dp" />
 
     <Button
         android:id="@+id/hashButton"
@@ -64,7 +64,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/hashSelectionSpinner"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="33dp"
         android:text="@string/hash"
         android:textSize="14sp"
         android:typeface="monospace" />
@@ -75,7 +75,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/fileButton"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="32dp"
         android:entries="@array/hashtype_array" />
 
     <Button
@@ -98,19 +98,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/adView"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="59dp"
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentTop="false"
+        android:layout_marginBottom="11dp"
         android:width="500dp"
         android:clickable="false"
         android:ems="10"
+        android:forceHasOverlappingRendering="false"
         android:inputType="text"
         android:labelFor="@id/hashOutput"
         android:longClickable="false"
         android:maxHeight="25dp"
         android:maxLines="5"
+        android:selectAllOnFocus="true"
+        android:singleLine="false"
         android:text="@string/compare_hashes"
         android:textAlignment="center"
         android:textIsSelectable="true"
+        android:textSize="14sp"
         android:typeface="monospace" />
 
     <EditText
@@ -121,7 +129,9 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="7dp"
         android:ems="10"
+        android:imeOptions="actionDone"
         android:inputType="textPersonName"
-        android:text="@string/textToHash" />
+        android:text="@string/textToHash"
+        android:textAlignment="center" />
 
 </RelativeLayout>

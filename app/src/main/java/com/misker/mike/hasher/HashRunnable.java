@@ -43,7 +43,6 @@ public class HashRunnable extends AsyncTask<Uri, Void, String> {
     public void onPreExecute() {
         Main.progress.setVisibility(View.VISIBLE);
         Main.hashOutput.setText(R.string.waitText);
-
     }
 
     @Override

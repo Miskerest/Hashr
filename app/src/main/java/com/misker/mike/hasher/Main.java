@@ -5,6 +5,8 @@ import android.content.ClipboardManager;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -21,23 +24,25 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+
 public class Main extends AppCompatActivity {
 
     private static final int READ_REQUEST_CODE = 42;
     static protected ProgressBar progress;
     static protected TextView hashOutput;
-    static String hashresult;
     ClipboardManager clipboard;
     private Uri fileURI;
     private String hashtype = "MD5";
     private Button hashButton;
-    private TextView HashCmpText;
+    private TextView hashCmpText;
     private TextView hashText;
+    private AdView mAdView;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -50,14 +55,17 @@ public class Main extends AppCompatActivity {
     private void setupFileHashPane(){
 
         final Button fileButton = (Button) findViewById(R.id.fileButton);
+        final View contentView = findViewById(R.id.activity_main);
+        final Spinner selector = (Spinner) findViewById(R.id.hashSelectionSpinner);
+
         hashButton = (Button) findViewById(R.id.hashButton);
         hashOutput = (TextView) findViewById(R.id.hashOutput);
-        final Spinner selector = (Spinner) findViewById(R.id.hashSelectionSpinner);
-        HashCmpText = (TextView) findViewById(R.id.hashCmpText);
+        hashCmpText = (TextView) findViewById(R.id.hashCmpText);
         clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
         progress = (ProgressBar) findViewById(R.id.progress);
-        hashText = (TextView) findViewById(R.id.hashText);
+        hashText = (TextView) findViewById(R.id.hashText); //input for text-hashing
 
+        //setup tabs
         TabLayout tabs = (TabLayout) findViewById(R.id.tabs);
         ViewPager pager = (ViewPager) findViewById(R.id.viewpager);
         FixedTabsPagerAdapter adapter = new FixedTabsPagerAdapter(getSupportFragmentManager());
@@ -93,19 +101,47 @@ public class Main extends AppCompatActivity {
             }
         });
 
-
         //set visibility and initialize labels/buttons
-        HashCmpText.setText(R.string.pasteHere);
+        hashCmpText.setText(R.string.pasteHere);
         hashButton.setEnabled(false);
         progress.setVisibility(View.INVISIBLE);
 
         //ad init
-        MobileAds.initialize(getApplicationContext(), "ca-app-pub-5863757662079397~1363106066");
-        AdView mAdView = (AdView) findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().setGender(AdRequest.GENDER_MALE).addKeyword("Encryption").build();
+        AdView adView = new AdView(this);
+        adView.setAdSize(AdSize.BANNER);
+        adView.setAdUnitId("ca-app-pub-5863757662079397/8723627780");
+
+        MobileAds.initialize(this, "ca-app-pub-5863757662079397~1363106066");
+        mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
         //Done setting up
+
+        contentView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+
+                Rect r = new Rect();
+                contentView.getWindowVisibleDisplayFrame(r);
+                int screenHeight = contentView.getRootView().getHeight();
+
+                // r.bottom is the position above soft keypad or device button.
+                // if keypad is shown, the r.bottom is smaller than that before.
+                int keypadHeight = screenHeight - r.bottom;
+
+                Log.d("debug", "keypadHeight = " + keypadHeight);
+
+                if (keypadHeight > screenHeight * 0.15) { // to determine keypad height.
+                    selector.setVisibility(View.INVISIBLE);
+                    hashCmpText.setVisibility(View.INVISIBLE);
+                }
+                else {
+                    selector.setVisibility(View.VISIBLE);
+                    hashCmpText.setVisibility(View.VISIBLE);
+                }
+            }
+        });
 
         fileButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -132,14 +168,14 @@ public class Main extends AppCompatActivity {
             }
         });
 
-        HashCmpText.setOnClickListener(new View.OnClickListener(){
+        // handlers for comparing hash text when hashCmpText is clicked
+        hashCmpText.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 compareHashes();
             }
         });
-
-        HashCmpText.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+        hashCmpText.setOnFocusChangeListener(new View.OnFocusChangeListener(){
             @Override
             public void onFocusChange(View view, boolean b) {
                 compareHashes();
@@ -170,12 +206,19 @@ public class Main extends AppCompatActivity {
             return;
         }
 
-        HashCmpText.setText(clipboard.getPrimaryClip().getItemAt(0).coerceToText(getApplicationContext()));
+        hashCmpText.setText(clipboard.getPrimaryClip()
+                .getItemAt(0).coerceToText(getApplicationContext()).toString().toLowerCase());
 
-        if(HashCmpText.getText().toString().equals(hashOutput.getText().toString()))
+        if(hashCmpText.getText().toString().toUpperCase()
+                .equals(hashOutput.getText().toString().toUpperCase())) {
             toast = Toast.makeText(context, "Hashes match!", Toast.LENGTH_SHORT);
-        else
+            hashCmpText.setTextColor(Color.GREEN);
+        }
+        else {
             toast = Toast.makeText(context, "Hashes do not match.", Toast.LENGTH_SHORT);
+            hashCmpText.setTextColor(Color.RED);
+        }
+
 
         toast.show();
     }
@@ -207,6 +250,8 @@ public class Main extends AppCompatActivity {
 
             if (resultData != null) {
                 fileURI = resultData.getData();
+                //grant permission in advance to prevent SecurityException
+                grantUriPermission(getPackageName(), fileURI, Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 // Check for the freshest data.
                 getContentResolver().takePersistableUriPermission(fileURI,
                         (Intent.FLAG_GRANT_READ_URI_PERMISSION
