@@ -7,7 +7,6 @@ I made this app because I tried to download two separate apps from the Play Stor
 ## Installation
 
 Pre-compiled apks are under `Releases`. 
-Right now it's targeted for `API 23` and above, but hopefully that will change in the future.
 
 ## Usage
 
@@ -22,13 +21,11 @@ Currently has support for
 * SHA512
 * CRC32
 * Adler32
-* more...?
 
 ## Future
 
 I plan on adding support for:
 
-* Maybe more hashing algorithms
 * A file name label
 * A prettier UI, maybe better animations
 * Bugfixes as they are discovered
@@ -36,7 +33,7 @@ I plan on adding support for:
 
 ## Screenshots
 
-![Screenshot](https://i.imgur.com/yMEN3jq.png)
+![Screenshot](https://lh3.googleusercontent.com/CqD_ufFeLSInDyIzIrKfbRXHDDuAkeFv5I21zGiMCqFi1m8NjqJYcKdACMQDbKUZ5ow=h900)
 
 ## License
 
