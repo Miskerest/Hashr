@@ -1,0 +1,23 @@
+<resources>
+    <string name="Hashr">Hashr</string>
+    <string name="compare_hashes">Compara resums…</string>
+    <string name="filepath">Camí de l'arxiu:</string>
+    <string name="hash">Crea resum</string>
+    <string name="hashlbl">Resum:</string>
+    <string name="waitText">Espereu…</string>
+    <string name="pasteHere">Toqueu per enganxar resum de referència</string>
+    <string name="textToHash">Text a crear resum</string>
+
+    <string-array name="hashtype_array">
+        <item>MD5</item>
+        <item>SHA1</item>
+        <item>SHA256</item>
+        <item>SHA384</item>
+        <item>SHA512</item>
+        <item>CRC32b</item>
+        <item>Adler32</item>
+    </string-array>
+
+    <string name="banner_ad_unit_id">ca-app-pub-5863757662079397/8723627780</string>
+
+</resources>
