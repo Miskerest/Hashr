@@ -5,11 +5,11 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:design:25.3.1'
-    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:design:27.0.2'
+    compile 'com.android.support:appcompat-v7:27.0.2'
     compile 'commons-codec:commons-codec:1.8'
     compile 'commons-io:commons-io:2.4'
-    compile 'com.google.firebase:firebase-ads:10.0.1'
+    compile 'com.google.firebase:firebase-ads:11.8.0'
     testCompile 'junit:junit:4.12'
     compile 'org.kie.modules:org-apache-commons-lang3:6.5.0.Final'
     compile "com.android.support:appcompat-v7:${supportLibVersion}"
@@ -28,14 +28,13 @@ dependencies {
 }
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.1"
+    compileSdkVersion 27
     defaultConfig {
         applicationId "com.misker.mike.hasher"
         minSdkVersion 19
-        targetSdkVersion 25
-        versionCode 12
-        versionName "1.2.4"
+        targetSdkVersion 27
+        versionCode 14
+        versionName "1.2.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -61,8 +60,5 @@ android {
     }
 }
 
-ext {
-    supportLibVersion = '25.3.1'
-}
 
 apply plugin: 'com.google.gms.google-services'

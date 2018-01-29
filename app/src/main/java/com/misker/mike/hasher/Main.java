@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -151,6 +152,12 @@ public class Main extends AppCompatActivity {
 
         hashButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
+                if (v != null) {
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+
                 if(fileButton.getVisibility() == View.VISIBLE) {
                     ContentResolver cr = getContentResolver();
                     HashRunnable hasher = new HashRunnable(hashtype, cr);
@@ -172,12 +179,20 @@ public class Main extends AppCompatActivity {
         hashCmpText.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
                 compareHashes();
             }
         });
         hashCmpText.setOnFocusChangeListener(new View.OnFocusChangeListener(){
             @Override
             public void onFocusChange(View view, boolean b) {
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
                 compareHashes();
             }
         });
@@ -253,9 +268,17 @@ public class Main extends AppCompatActivity {
                 //grant permission in advance to prevent SecurityException
                 grantUriPermission(getPackageName(), fileURI, Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 // Check for the freshest data.
-                getContentResolver().takePersistableUriPermission(fileURI,
-                        (Intent.FLAG_GRANT_READ_URI_PERMISSION
-                        | Intent.FLAG_GRANT_WRITE_URI_PERMISSION));
+                try {
+                    getContentResolver().takePersistableUriPermission(fileURI,
+                            (Intent.FLAG_GRANT_READ_URI_PERMISSION
+                                    | Intent.FLAG_GRANT_WRITE_URI_PERMISSION));
+                }
+                catch (SecurityException e) {
+                    Toast toast = Toast.makeText(getApplicationContext(),
+                            "Opening file failed- report to developer!", Toast.LENGTH_SHORT);
+                    toast.show();
+                    return;
+                }
 
                 ContentResolver cr = getContentResolver();
                 try {

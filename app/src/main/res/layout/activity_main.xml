@@ -64,7 +64,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/hashSelectionSpinner"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="33dp"
+        android:layout_marginTop="21dp"
         android:text="@string/hash"
         android:textSize="14sp"
         android:typeface="monospace" />
@@ -75,7 +75,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/fileButton"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="18dp"
         android:entries="@array/hashtype_array" />
 
     <Button
