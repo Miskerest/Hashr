@@ -1,5 +1,6 @@
 package com.misker.mike.hasher;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -11,8 +12,14 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 class FixedTabsPagerAdapter extends FragmentPagerAdapter {
 
+    private Context context;
+
     FixedTabsPagerAdapter(FragmentManager fm) {
         super(fm);
+    }
+
+    protected void setContext(Context context){
+        this.context = context;
     }
 
     @Override
@@ -30,9 +37,9 @@ class FixedTabsPagerAdapter extends FragmentPagerAdapter {
 
         switch(position) {
             case 1:
-                return "Text";
+                return context.getResources().getString(R.string.TEXT);
             default:
-                return "File";
+                return context.getResources().getString(R.string.FILE);
         }
     }
 

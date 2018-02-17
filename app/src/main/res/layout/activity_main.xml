@@ -28,6 +28,7 @@
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="visible"
         app:tabGravity="fill"
         app:tabMode="fixed" />
 
@@ -88,7 +89,7 @@
         android:layout_marginTop="23dp"
         android:minHeight="60dp"
         android:minWidth="240dip"
-        android:text="Select File"
+        android:text="@string/fileButton"
         android:textAppearance="@style/TextAppearance.AppCompat.Button"
         android:typeface="monospace"
         tools:ignore="HardcodedText" />

@@ -7,6 +7,12 @@
     <string name="waitText">Espere…</string>
     <string name="pasteHere">Toque para pegar resumen de referencia</string>
     <string name="textToHash">Texto a crear resumen</string>
+    <string name="fileButton">Seleccione un archivo</string>
+    <string name="hashesMatch">Resumen coinciden!</string>
+    <string name="hashesDontMatch">Resumen no coinciden.</string>
+    <string name="emptyClipboard">El portapapeles está vacío.</string>
+    <string name="FILE">ARCHIVO</string>
+    <string name="TEXT">TEXT</string>
 
     <string-array name="hashtype_array">
         <item>MD5</item>

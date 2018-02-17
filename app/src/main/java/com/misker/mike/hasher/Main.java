@@ -50,29 +50,33 @@ public class Main extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        setupFileHashPane();
+
+        setupFileHashPane(getApplicationContext());
 
     }
-    private void setupFileHashPane(){
+    private void setupFileHashPane(Context context){
 
-        final Button fileButton = (Button) findViewById(R.id.fileButton);
+        final Button fileButton = findViewById(R.id.fileButton);
         final View contentView = findViewById(R.id.activity_main);
-        final Spinner selector = (Spinner) findViewById(R.id.hashSelectionSpinner);
+        final Spinner selector = findViewById(R.id.hashSelectionSpinner);
 
-        hashButton = (Button) findViewById(R.id.hashButton);
-        hashOutput = (TextView) findViewById(R.id.hashOutput);
-        hashCmpText = (TextView) findViewById(R.id.hashCmpText);
+        hashButton = findViewById(R.id.hashButton);
+        hashOutput = findViewById(R.id.hashOutput);
+        hashCmpText = findViewById(R.id.hashCmpText);
         clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-        progress = (ProgressBar) findViewById(R.id.progress);
-        hashText = (TextView) findViewById(R.id.hashText); //input for text-hashing
+        progress = findViewById(R.id.progress);
+        hashText = findViewById(R.id.hashText); //input for text-hashing
 
         //setup tabs
-        TabLayout tabs = (TabLayout) findViewById(R.id.tabs);
-        ViewPager pager = (ViewPager) findViewById(R.id.viewpager);
+        TabLayout tabs = findViewById(R.id.tabs);
+        ViewPager pager = findViewById(R.id.viewpager);
         FixedTabsPagerAdapter adapter = new FixedTabsPagerAdapter(getSupportFragmentManager());
+
+        adapter.setContext(context);
 
         pager.setAdapter(adapter);
         tabs.setupWithViewPager(pager);
+
 
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -103,7 +107,7 @@ public class Main extends AppCompatActivity {
         });
 
         //set visibility and initialize labels/buttons
-        hashCmpText.setText(R.string.pasteHere);
+        hashCmpText.setText(getString(R.string.compare_hashes));
         hashButton.setEnabled(false);
         progress.setVisibility(View.INVISIBLE);
 
@@ -217,7 +221,7 @@ public class Main extends AppCompatActivity {
         Context context = getApplicationContext();
 
         if(!clipboard.hasPrimaryClip()){
-            toast = Toast.makeText(context, "Clipboard empty.", Toast.LENGTH_SHORT);
+            toast = Toast.makeText(context, getString(R.string.emptyClipboard), Toast.LENGTH_SHORT);
             toast.show();
             return;
         }
@@ -227,11 +231,11 @@ public class Main extends AppCompatActivity {
 
         if(hashCmpText.getText().toString().toUpperCase()
                 .equals(hashOutput.getText().toString().toUpperCase())) {
-            toast = Toast.makeText(context, "Hashes match!", Toast.LENGTH_SHORT);
+            toast = Toast.makeText(context, getString(R.string.hashesMatch), Toast.LENGTH_SHORT);
             hashCmpText.setTextColor(Color.GREEN);
         }
         else {
-            toast = Toast.makeText(context, "Hashes do not match.", Toast.LENGTH_SHORT);
+            toast = Toast.makeText(context, getString(R.string.hashesDontMatch), Toast.LENGTH_SHORT);
             hashCmpText.setTextColor(Color.RED);
         }
 

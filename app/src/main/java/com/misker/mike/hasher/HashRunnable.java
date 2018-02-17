@@ -5,6 +5,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -24,10 +26,11 @@ import java.util.zip.CheckedInputStream;
 
 public class HashRunnable extends AsyncTask<Uri, Void, String> {
 
-    public String output = "Nice job buddy, you broke my code!";
+    private String output = "Nice job buddy, you broke my code!";
     private String type;
     private String toHash;
     private ContentResolver cr;
+
 
     public HashRunnable(String hashtype, ContentResolver cr){
         type = hashtype;

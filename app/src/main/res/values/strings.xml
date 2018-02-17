@@ -7,6 +7,12 @@
     <string name="waitText">Please wait…</string>
     <string name="pasteHere">Tap to paste reference hash</string>
     <string name="textToHash">Text to hash</string>
+    <string name="fileButton">Select file</string>
+    <string name="hashesMatch">Hashes match!</string>
+    <string name="hashesDontMatch">Hashes don\'t match.</string>
+    <string name="emptyClipboard">Clipboard empty.</string>
+    <string name="FILE">FILE</string>
+    <string name="TEXT">TEXT</string>
 
     <string-array name="hashtype_array">
         <item>MD5</item>
