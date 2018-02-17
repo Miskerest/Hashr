@@ -112,9 +112,10 @@ public class Main extends AppCompatActivity {
         adView.setAdSize(AdSize.BANNER);
         adView.setAdUnitId("ca-app-pub-5863757662079397/8723627780");
 
-        MobileAds.initialize(this, "ca-app-pub-5863757662079397~1363106066");
+        MobileAds.initialize(this, "ca-app-pub-5863757662079397/8723627780");
         mAdView = (AdView) findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
+        AdRequest adRequest = new AdRequest.Builder().setGender(AdRequest.GENDER_MALE)
+                .addKeyword("Crypto").addKeyword("Cipher").build();
         mAdView.loadAd(adRequest);
 
         //Done setting up
@@ -266,7 +267,15 @@ public class Main extends AppCompatActivity {
             if (resultData != null) {
                 fileURI = resultData.getData();
                 //grant permission in advance to prevent SecurityException
-                grantUriPermission(getPackageName(), fileURI, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                try {
+                    grantUriPermission(getPackageName(), fileURI, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                }
+                catch (NullPointerException e) {
+                    Toast toast = Toast.makeText(getApplicationContext(),
+                            "Failed to get file reading permissions.", Toast.LENGTH_SHORT);
+                    toast.show();
+                    return;
+                }
                 // Check for the freshest data.
                 try {
                     getContentResolver().takePersistableUriPermission(fileURI,

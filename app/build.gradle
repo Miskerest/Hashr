@@ -33,7 +33,7 @@ android {
         applicationId "com.misker.mike.hasher"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 14
+        versionCode 16
         versionName "1.2.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
