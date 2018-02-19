@@ -4,9 +4,6 @@ import android.content.ContentResolver;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.view.View;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -26,32 +23,33 @@ import java.util.zip.CheckedInputStream;
 
 public class HashRunnable extends AsyncTask<Uri, Void, String> {
 
+    private final MainView mainView;
     private String output = "Nice job buddy, you broke my code!";
     private String type;
     private String toHash;
     private ContentResolver cr;
 
 
-    public HashRunnable(String hashtype, ContentResolver cr){
+    public HashRunnable(String hashtype, ContentResolver cr, MainView mainView){
         type = hashtype;
         this.cr = cr;
+        this.mainView = mainView;
     }
 
-    public HashRunnable(String hashtype, String toHash){
+    public HashRunnable(String hashtype, String toHash, MainView mainView){
         type = hashtype;
         this.toHash = toHash;
+        this.mainView = mainView;
     }
 
     @Override
     public void onPreExecute() {
-        Main.progress.setVisibility(View.VISIBLE);
-        Main.hashOutput.setText(R.string.waitText);
+        mainView.displayWaitProgress();
     }
 
     @Override
     public void onPostExecute(String result) {
-        Main.progress.setVisibility(View.INVISIBLE);
-        Main.hashOutput.setText(result);
+        mainView.displayResults(result);
     }
 
     @Override

@@ -32,44 +32,64 @@ import com.google.android.gms.ads.MobileAds;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
-public class Main extends AppCompatActivity {
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+public class Main extends AppCompatActivity implements MainView {
 
     private static final int READ_REQUEST_CODE = 42;
-    static protected ProgressBar progress;
-    static protected TextView hashOutput;
     ClipboardManager clipboard;
     private Uri fileURI;
     private String hashtype = "MD5";
-    private Button hashButton;
-    private TextView hashCmpText;
-    private TextView hashText;
-    private AdView mAdView;
+
+    @BindView(R.id.hashOutput)
+    TextView hashOutput;
+
+    @BindView(R.id.progress)
+    ProgressBar progress;
+
+    @BindView(R.id.hashButton)
+    Button hashButton;
+
+    @BindView(R.id.hashCmpText)
+    TextView hashCmpText;
+
+    @BindView(R.id.hashText)
+    TextView hashText;
+
+    @BindView(R.id.adView)
+    AdView mAdView;
+
+    @BindView(R.id.fileButton)
+    Button fileButton;
+
+    @BindView(R.id.activity_main)
+    View contentView;
+
+    @BindView(R.id.hashSelectionSpinner)
+    Spinner selector;
+
+    @BindView(R.id.tabs)
+    TabLayout tabs;
+
+    @BindView(R.id.viewpager)
+    ViewPager pager;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        ButterKnife.bind(this);
 
         setupFileHashPane(getApplicationContext());
 
     }
     private void setupFileHashPane(Context context){
 
-        final Button fileButton = findViewById(R.id.fileButton);
-        final View contentView = findViewById(R.id.activity_main);
-        final Spinner selector = findViewById(R.id.hashSelectionSpinner);
-
-        hashButton = findViewById(R.id.hashButton);
-        hashOutput = findViewById(R.id.hashOutput);
-        hashCmpText = findViewById(R.id.hashCmpText);
         clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-        progress = findViewById(R.id.progress);
-        hashText = findViewById(R.id.hashText); //input for text-hashing
 
         //setup tabs
-        TabLayout tabs = findViewById(R.id.tabs);
-        ViewPager pager = findViewById(R.id.viewpager);
         FixedTabsPagerAdapter adapter = new FixedTabsPagerAdapter(getSupportFragmentManager());
 
         adapter.setContext(context);
@@ -117,7 +137,6 @@ public class Main extends AppCompatActivity {
         adView.setAdUnitId("ca-app-pub-5863757662079397/8723627780");
 
         MobileAds.initialize(this, "ca-app-pub-5863757662079397/8723627780");
-        mAdView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().setGender(AdRequest.GENDER_MALE)
                 .addKeyword("Crypto").addKeyword("Cipher").build();
         mAdView.loadAd(adRequest);
@@ -155,31 +174,6 @@ public class Main extends AppCompatActivity {
             }
         });
 
-        hashButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-
-                if (v != null) {
-                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-                }
-
-                if(fileButton.getVisibility() == View.VISIBLE) {
-                    ContentResolver cr = getContentResolver();
-                    HashRunnable hasher = new HashRunnable(hashtype, cr);
-
-                    hasher.execute(fileURI);
-
-                }
-                else if(hashText.getVisibility() == View.VISIBLE){
-                    String toHash = hashText.getText().toString();
-                    HashRunnable hasher = new HashRunnable(hashtype, toHash);
-
-                    hasher.execute(fileURI);
-
-                }
-            }
-        });
-
         // handlers for comparing hash text when hashCmpText is clicked
         hashCmpText.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -214,6 +208,25 @@ public class Main extends AppCompatActivity {
                 //do nothing
             }
         });
+    }
+
+    @OnClick(R.id.hashButton)
+    public void hashButtonClick(View v) {
+        if (v != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+        }
+
+        if(fileButton.getVisibility() == View.VISIBLE) {
+            ContentResolver cr = getContentResolver();
+            HashRunnable hasher = new HashRunnable(hashtype, cr, this);
+            hasher.execute(fileURI);
+        }
+        else if(hashText.getVisibility() == View.VISIBLE){
+            String toHash = hashText.getText().toString();
+            HashRunnable hasher = new HashRunnable(hashtype, toHash, this);
+            hasher.execute(fileURI);
+        }
     }
 
     private void compareHashes(){
@@ -309,4 +322,13 @@ public class Main extends AppCompatActivity {
         }
     }
 
+    public void displayWaitProgress() {
+        progress.setVisibility(View.VISIBLE);
+        hashOutput.setText(R.string.waitText);
+    }
+
+    public void displayResults(String results) {
+        progress.setVisibility(View.INVISIBLE);
+        hashOutput.setText(results);
+    }
 }
