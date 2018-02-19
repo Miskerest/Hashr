@@ -21,11 +21,11 @@ import java.util.zip.CheckedInputStream;
  * Class for calculating hashes of Strings or file-like objects
  */
 
-public class HashRunnable extends AsyncTask<Uri, Void, String> {
+class HashRunnable extends AsyncTask<Uri, Void, String> {
 
     private final MainView mainView;
     private String output = "Nice job buddy, you broke my code!";
-    private String type;
+    private final String type;
     private String toHash;
     private ContentResolver cr;
 
@@ -78,6 +78,7 @@ public class HashRunnable extends AsyncTask<Uri, Void, String> {
                         //Thanks to Redditor /u/thurask for finding a bug here!
                         CheckedInputStream cis = new CheckedInputStream(is, new CRC32());
                         byte[] tempBuf = new byte[128];
+                        //noinspection StatementWithEmptyBody
                         while (cis.read(tempBuf) >= 0);
                         long checksum = cis.getChecksum().getValue();
                         output = Long.toHexString(checksum);
@@ -86,6 +87,7 @@ public class HashRunnable extends AsyncTask<Uri, Void, String> {
                     case "Adler32": {
                         CheckedInputStream cis = new CheckedInputStream(is, new Adler32());
                         byte[] tempBuf = new byte[128];
+                        //noinspection StatementWithEmptyBody
                         while (cis.read(tempBuf) >= 0);
                         long checksum = cis.getChecksum().getValue();
                         output = Long.toHexString(checksum);
@@ -120,6 +122,7 @@ public class HashRunnable extends AsyncTask<Uri, Void, String> {
                         //Thanks to Redditor /u/thurask for finding a bug here!
                         CheckedInputStream cis = new CheckedInputStream(is, new CRC32());
                         byte[] tempBuf = new byte[128];
+                        //noinspection StatementWithEmptyBody
                         while (cis.read(tempBuf) >= 0);
                         long checksum = cis.getChecksum().getValue();
                         output = Long.toHexString(checksum);
@@ -128,6 +131,7 @@ public class HashRunnable extends AsyncTask<Uri, Void, String> {
                     case "Adler32": {
                         CheckedInputStream cis = new CheckedInputStream(is, new Adler32());
                         byte[] tempBuf = new byte[128];
+                        //noinspection StatementWithEmptyBody
                         while (cis.read(tempBuf) >= 0);
                         long checksum = cis.getChecksum().getValue();
                         output = Long.toHexString(checksum);

@@ -1,6 +1,6 @@
 package com.misker.mike.hasher;
 
-public interface MainView {
+interface MainView {
     void displayWaitProgress();
     void displayResults(String results);
 }

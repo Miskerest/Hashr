@@ -1,11 +1,8 @@
 <resources>
     <string name="Hashr">Hashr</string>
     <string name="compare_hashes">Comparar resúmenes…</string>
-    <string name="filepath">Ruta del fichero:</string>
     <string name="hash">Calcular resumen</string>
-    <string name="hashlbl">Resumen:</string>
     <string name="waitText">Espere…</string>
-    <string name="pasteHere">Toque para pegar resumen de referencia</string>
     <string name="textToHash">Texto a crear resumen</string>
     <string name="fileButton">Seleccione un archivo</string>
     <string name="hashesMatch">Resumen coinciden!</string>

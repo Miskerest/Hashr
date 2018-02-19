@@ -36,7 +36,8 @@
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="0px"
-        android:background="@android:color/white"></android.support.v4.view.ViewPager>
+        android:background="@android:color/white">
+    </android.support.v4.view.ViewPager>
 
     <TextView
         android:id="@+id/hashOutput"
@@ -96,12 +97,11 @@
 
     <EditText
         android:id="@+id/hashCmpText"
+        android:hint="@+id/hashCmpText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/adView"
         android:layout_alignParentEnd="false"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentStart="false"
         android:layout_alignParentTop="false"
         android:layout_marginBottom="11dp"
@@ -120,10 +120,12 @@
         android:textAlignment="center"
         android:textIsSelectable="true"
         android:textSize="14sp"
-        android:typeface="monospace" />
+        android:typeface="monospace"
+        tools:targetApi="27" />
 
     <EditText
         android:id="@+id/hashText"
+        android:hint="@+id/hashText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/hashSelectionSpinner"

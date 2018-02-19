@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -39,7 +38,7 @@ import butterknife.OnClick;
 public class Main extends AppCompatActivity implements MainView {
 
     private static final int READ_REQUEST_CODE = 42;
-    ClipboardManager clipboard;
+    private ClipboardManager clipboard;
     private Uri fileURI;
     private String hashtype = "MD5";
 
@@ -178,20 +177,14 @@ public class Main extends AppCompatActivity implements MainView {
         hashCmpText.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                if (view != null) {
-                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                }
+                hideKeyboard(view);
                 compareHashes();
             }
         });
         hashCmpText.setOnFocusChangeListener(new View.OnFocusChangeListener(){
             @Override
             public void onFocusChange(View view, boolean b) {
-                if (view != null) {
-                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                }
+                hideKeyboard(view);
                 compareHashes();
             }
         });
@@ -210,13 +203,19 @@ public class Main extends AppCompatActivity implements MainView {
         });
     }
 
-    @OnClick(R.id.hashButton)
-    public void hashButtonClick(View v) {
+    private void hideKeyboard(View v){
         if (v != null) {
             InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            if(imm == null)
+                return;
+
             imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
         }
+    }
 
+    @OnClick(R.id.hashButton)
+    public void hashButtonClick(View v) {
+        hideKeyboard(v);
         if(fileButton.getVisibility() == View.VISIBLE) {
             ContentResolver cr = getContentResolver();
             HashRunnable hasher = new HashRunnable(hashtype, cr, this);
@@ -246,31 +245,22 @@ public class Main extends AppCompatActivity implements MainView {
                 .equals(hashOutput.getText().toString().toUpperCase())) {
             toast = Toast.makeText(context, getString(R.string.hashesMatch), Toast.LENGTH_SHORT);
             hashCmpText.setTextColor(Color.GREEN);
+            toast.show();
         }
         else {
             toast = Toast.makeText(context, getString(R.string.hashesDontMatch), Toast.LENGTH_SHORT);
             hashCmpText.setTextColor(Color.RED);
+            toast.show();
         }
 
-
-        toast.show();
     }
 
     /* File chooser for selecting files */
     private void showFileChooser() {
-
-        if (Build.VERSION.SDK_INT < 19){
-            Intent intent = new Intent();
-            intent.setType("*/*");
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-            startActivityForResult(Intent.createChooser(intent, "Select a file"),
-                    READ_REQUEST_CODE);
-        } else {
-            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-            intent.addCategory(Intent.CATEGORY_OPENABLE);
-            intent.setType("*/*");
-            startActivityForResult(intent, READ_REQUEST_CODE);
-        }
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("*/*");
+        startActivityForResult(intent, READ_REQUEST_CODE);
     }
 
     /* For selecting files for file-hashing */
@@ -281,44 +271,43 @@ public class Main extends AppCompatActivity implements MainView {
 
         if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK && resultData != null) {
 
-            if (resultData != null) {
-                fileURI = resultData.getData();
-                //grant permission in advance to prevent SecurityException
-                try {
-                    grantUriPermission(getPackageName(), fileURI, Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                }
-                catch (NullPointerException e) {
-                    Toast toast = Toast.makeText(getApplicationContext(),
-                            "Failed to get file reading permissions.", Toast.LENGTH_SHORT);
-                    toast.show();
-                    return;
-                }
-                // Check for the freshest data.
-                try {
-                    getContentResolver().takePersistableUriPermission(fileURI,
-                            (Intent.FLAG_GRANT_READ_URI_PERMISSION
-                                    | Intent.FLAG_GRANT_WRITE_URI_PERMISSION));
-                }
-                catch (SecurityException e) {
-                    Toast toast = Toast.makeText(getApplicationContext(),
-                            "Opening file failed- report to developer!", Toast.LENGTH_SHORT);
-                    toast.show();
-                    return;
-                }
+            fileURI = resultData.getData();
+            //grant permission in advance to prevent SecurityException
+            try {
+                grantUriPermission(getPackageName(), fileURI, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            }
+            catch (NullPointerException e) {
+                Toast toast = Toast.makeText(getApplicationContext(),
+                        "Failed to get file reading permissions.", Toast.LENGTH_SHORT);
+                toast.show();
+                return;
+            }
+            // Check for the freshest data.
+            try {
+                getContentResolver().takePersistableUriPermission(fileURI,
+                        (Intent.FLAG_GRANT_READ_URI_PERMISSION
+                                | Intent.FLAG_GRANT_WRITE_URI_PERMISSION));
+            }
+            catch (SecurityException e) {
+                Toast toast = Toast.makeText(getApplicationContext(),
+                        "Opening file failed- report to developer!", Toast.LENGTH_SHORT);
+                toast.show();
+                return;
+            }
 
-                ContentResolver cr = getContentResolver();
-                try {
-                    InputStream is = cr.openInputStream(fileURI);
+            ContentResolver cr = getContentResolver();
+            try {
+                InputStream is = cr.openInputStream(fileURI);
 
-                    if(is != null)
-                        hashButton.setEnabled(true);
-
-                }
-                catch (FileNotFoundException e) {
-                    Log.e("FileDebug", e.getMessage());
-                }
+                if(is != null)
+                    hashButton.setEnabled(true);
 
             }
+            catch (FileNotFoundException e) {
+                Log.e("FileDebug", e.getMessage());
+            }
+
+
         }
     }
 

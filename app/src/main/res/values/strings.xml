@@ -1,11 +1,8 @@
 <resources>
     <string name="Hashr">Hashr</string>
     <string name="compare_hashes">Compare Hashes…</string>
-    <string name="filepath">Filepath:</string>
     <string name="hash">HASH</string>
-    <string name="hashlbl">Hash:</string>
     <string name="waitText">Please wait…</string>
-    <string name="pasteHere">Tap to paste reference hash</string>
     <string name="textToHash">Text to hash</string>
     <string name="fileButton">Select file</string>
     <string name="hashesMatch">Hashes match!</string>

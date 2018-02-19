@@ -1,11 +1,8 @@
 <resources>
     <string name="Hashr">Hashr</string>
     <string name="compare_hashes">Compara resums…</string>
-    <string name="filepath">Camí de l\'arxiu:</string>
     <string name="hash">Crea resum</string>
-    <string name="hashlbl">Resum:</string>
     <string name="waitText">Espereu…</string>
-    <string name="pasteHere">Toqueu per enganxar resum de referència</string>
     <string name="textToHash">Text a crear resum</string>
     <string name="fileButton">Seleccioneu un fitxer</string>
     <string name="hashesMatch">Crea aparellar!</string>

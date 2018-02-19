@@ -1,6 +1,7 @@
 package com.misker.mike.hasher;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,14 +31,21 @@ public class PageFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_main, container, false);
-
+        int page;
         TextView txt = new TextView(getActivity());
-        int page = getArguments().getInt(ARG_PAGE_NUMBER, -1);
-        txt.setText(String.format(Locale.getDefault(), "Page %d", page));
 
+        try {
+            //noinspection ConstantConditions
+            page = getArguments().getInt(ARG_PAGE_NUMBER, -1);
+        }
+        catch (java.lang.NullPointerException e) {
+            page = -1;
+        }
+
+        txt.setText(String.format(Locale.getDefault(), "Page %d", page));
         return rootView;
     }
 }

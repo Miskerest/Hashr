@@ -18,7 +18,7 @@ class FixedTabsPagerAdapter extends FragmentPagerAdapter {
         super(fm);
     }
 
-    protected void setContext(Context context){
+    void setContext(Context context){
         this.context = context;
     }
 
