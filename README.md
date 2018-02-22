@@ -1,14 +1,10 @@
-# Hashr
-
- <br/> <br/>
-
-## About
+# About
 
 I made this app because I tried to download two separate apps from the Play Store to validate a system image's checksum. Neither worked, so I made my own!
 
 It's designed to be simple, fast, and easy to use. This is my first published Android application, so feedback is appreciated!
 
-## Installation
+# Installation
 
 Requires Android 4.4+
 
@@ -25,13 +21,13 @@ Requires Android 4.4+
 * full network access
 * prevent device from sleeping
 
-## Usage
+# Usage
 1. Select whether you would like to hash a file or raw text.
 2. Open any file or enter text in the text field.
 3. Select the hashing algorithm you would like to use. Click `HASH` and the file's hash will be calculated and printed.
 4. (optional) If you have a reference hash, copy it to your clipboard and click on `Tap to paste...` to compare the two hashes.
 
-Currently has support for
+### Currently has support for
 * MD5
 * SHA1
 * SHA256
@@ -40,7 +36,7 @@ Currently has support for
 * CRC32
 * Adler32
 
-## Future Plans
+# Future Plans
 
 * Showing filename for selected file
 * A prettier UI, better animations
@@ -49,10 +45,8 @@ Currently has support for
 
 Bugfixes are being fixed as they are discovered
 
-## Screenshots
-
-![Screenshot](https://lh3.googleusercontent.com/CqD_ufFeLSInDyIzIrKfbRXHDDuAkeFv5I21zGiMCqFi1m8NjqJYcKdACMQDbKUZ5ow=h900)
-![Screenshot](https://lh3.googleusercontent.com/wCIF0JWT7eTv3yUPMQ8xfMGQdWdyl0ugq5O3fj8pi8Thxn52l_abSE9yXzcg8YWOQGXF=h900-rw)
+# Screenshots
+<img src="https://lh3.googleusercontent.com/CqD_ufFeLSInDyIzIrKfbRXHDDuAkeFv5I21zGiMCqFi1m8NjqJYcKdACMQDbKUZ5ow=h900"  width="420" height="900"><img src="https://lh3.googleusercontent.com/wCIF0JWT7eTv3yUPMQ8xfMGQdWdyl0ugq5O3fj8pi8Thxn52l_abSE9yXzcg8YWOQGXF=h900-rw"  width="420" height="900">
 
 ## License
 
