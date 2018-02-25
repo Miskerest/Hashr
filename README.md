@@ -1,19 +1,33 @@
-# Hasher
-
-## About
+# About
 
 I made this app because I tried to download two separate apps from the Play Store to validate a system image's checksum. Neither worked, so I made my own!
 
-## Installation
+It's designed to be simple, fast, and easy to use. This is my first published Android application, so feedback is appreciated!
 
-Pre-compiled apks are under `Releases`. 
+# Installation
 
-## Usage
+Requires Android 4.4+
 
-Open any file and select the hashing algorithm you would like to use. Click `HASH` and the file's hash will be printed.
-If you have a reference hash, copy it to your clipboard and click on `Tap to paste...` to compare the two hashes.
+### Sources
+* Pre-compiled apks are under [Releases](https://github.com/Miskerest/Hashr/releases)
+* [Google Play](https://play.google.com/store/apps/details?id=com.misker.mike.hasher)
+* [Amazon App Store](http://a.co/dk4aA1O)
 
-Currently has support for
+### Permissions
+
+* read the contents of your USB storage
+* receive data from Internet
+* view network connections
+* full network access
+* prevent device from sleeping
+
+# Usage
+1. Select whether you would like to hash a file or raw text.
+2. Open any file or enter text in the text field.
+3. Select the hashing algorithm you would like to use. Click `HASH` and the file's hash will be calculated and printed.
+4. (optional) If you have a reference hash, copy it to your clipboard and click on `Tap to paste...` to compare the two hashes.
+
+### Currently has support for
 * MD5
 * SHA1
 * SHA256
@@ -22,18 +36,17 @@ Currently has support for
 * CRC32
 * Adler32
 
-## Future
+# Future Plans
 
-I plan on adding support for:
+* Showing filename for selected file
+* A prettier UI, better animations
+* Add testing code (In progress)
+* Translations for select locales
 
-* A file name label
-* A prettier UI, maybe better animations
-* Bugfixes as they are discovered
-* Add testing code
+Bugfixes are being fixed as they are discovered
 
-## Screenshots
-
-![Screenshot](https://lh3.googleusercontent.com/CqD_ufFeLSInDyIzIrKfbRXHDDuAkeFv5I21zGiMCqFi1m8NjqJYcKdACMQDbKUZ5ow=h900)
+# Screenshots
+<img src="https://lh3.googleusercontent.com/CqD_ufFeLSInDyIzIrKfbRXHDDuAkeFv5I21zGiMCqFi1m8NjqJYcKdACMQDbKUZ5ow=h900"  width="420" height="900"><img src="https://lh3.googleusercontent.com/wCIF0JWT7eTv3yUPMQ8xfMGQdWdyl0ugq5O3fj8pi8Thxn52l_abSE9yXzcg8YWOQGXF=h900-rw"  width="420" height="900">
 
 ## License
 
