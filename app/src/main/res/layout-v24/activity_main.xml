@@ -95,9 +95,9 @@
         android:typeface="monospace"
         tools:ignore="HardcodedText" />
 
-    <EditText
-        android:id="@+id/hashCmpText"
-        android:hint="@+id/hashCmpText"
+    <Button
+        android:id="@+id/hashCmpButton"
+        android:hint="@+id/hashCmpButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/adView"
@@ -106,31 +106,28 @@
         android:layout_alignParentTop="false"
         android:layout_marginBottom="11dp"
         android:width="500dp"
-        android:clickable="false"
         android:ems="10"
         android:forceHasOverlappingRendering="false"
-        android:inputType="text"
         android:labelFor="@id/hashOutput"
-        android:longClickable="false"
         android:maxHeight="25dp"
         android:maxLines="5"
         android:selectAllOnFocus="true"
         android:singleLine="false"
         android:text="@string/compare_hashes"
         android:textAlignment="center"
-        android:textIsSelectable="true"
         android:textSize="14sp"
         android:typeface="monospace" />
 
     <EditText
         android:id="@+id/hashText"
-        android:hint="@+id/hashText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/hashSelectionSpinner"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="7dp"
+        android:autoText="false"
         android:ems="10"
+        android:hint="@string/textToHash"
         android:imeOptions="actionDone"
         android:inputType="textPersonName"
         android:text="@string/textToHash"

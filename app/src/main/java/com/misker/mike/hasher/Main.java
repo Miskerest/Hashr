@@ -6,7 +6,6 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -14,7 +13,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -31,6 +29,7 @@ import com.google.android.gms.ads.MobileAds;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -51,8 +50,8 @@ public class Main extends AppCompatActivity implements MainView {
     @BindView(R.id.hashButton)
     Button hashButton;
 
-    @BindView(R.id.hashCmpText)
-    TextView hashCmpText;
+    @BindView(R.id.hashCmpButton)
+    Button hashCmpButton;
 
     @BindView(R.id.hashText)
     TextView hashText;
@@ -74,6 +73,9 @@ public class Main extends AppCompatActivity implements MainView {
 
     @BindView(R.id.viewpager)
     ViewPager pager;
+
+    @BindString(R.string.banner_ad_unit_id)
+    String ad_unit_id;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -100,6 +102,9 @@ public class Main extends AppCompatActivity implements MainView {
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+
+                closeKeyboard();
+
                 if(tab.getPosition() == 1) {
                     fileButton.setVisibility(View.INVISIBLE);
                     hashText.setVisibility(View.VISIBLE);
@@ -126,46 +131,20 @@ public class Main extends AppCompatActivity implements MainView {
         });
 
         //set visibility and initialize labels/buttons
-        hashCmpText.setText(getString(R.string.compare_hashes));
+        hashCmpButton.setText(getString(R.string.compare_hashes));
         hashButton.setEnabled(false);
         progress.setVisibility(View.INVISIBLE);
 
         //ad init
         AdView adView = new AdView(this);
         adView.setAdSize(AdSize.BANNER);
-        adView.setAdUnitId("ca-app-pub-5863757662079397/8723627780");
+        adView.setAdUnitId(ad_unit_id);
 
-        MobileAds.initialize(this, "ca-app-pub-5863757662079397/8723627780");
-        AdRequest adRequest = new AdRequest.Builder().setGender(AdRequest.GENDER_MALE)
-                .addKeyword("Crypto").addKeyword("Cipher").build();
+        MobileAds.initialize(this, ad_unit_id);
+        AdRequest adRequest = new AdRequest.Builder().setGender(AdRequest.GENDER_MALE).build();
         mAdView.loadAd(adRequest);
 
         //Done setting up
-
-        contentView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-
-                Rect r = new Rect();
-                contentView.getWindowVisibleDisplayFrame(r);
-                int screenHeight = contentView.getRootView().getHeight();
-
-                // r.bottom is the position above soft keypad or device button.
-                // if keypad is shown, the r.bottom is smaller than that before.
-                int keypadHeight = screenHeight - r.bottom;
-
-                Log.d("debug", "keypadHeight = " + keypadHeight);
-
-                if (keypadHeight > screenHeight * 0.15) { // to determine keypad height.
-                    selector.setVisibility(View.INVISIBLE);
-                    hashCmpText.setVisibility(View.INVISIBLE);
-                }
-                else {
-                    selector.setVisibility(View.VISIBLE);
-                    hashCmpText.setVisibility(View.VISIBLE);
-                }
-            }
-        });
 
         fileButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -174,17 +153,9 @@ public class Main extends AppCompatActivity implements MainView {
         });
 
         // handlers for comparing hash text when hashCmpText is clicked
-        hashCmpText.setOnClickListener(new View.OnClickListener(){
+        hashCmpButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                hideKeyboard(view);
-                compareHashes();
-            }
-        });
-        hashCmpText.setOnFocusChangeListener(new View.OnFocusChangeListener(){
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                hideKeyboard(view);
                 compareHashes();
             }
         });
@@ -197,25 +168,19 @@ public class Main extends AppCompatActivity implements MainView {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                //do nothing
-            }
+            public void onNothingSelected(AdapterView<?> adapterView) {}
         });
     }
 
-    private void hideKeyboard(View v){
-        if (v != null) {
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-            if(imm == null)
-                return;
-
-            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-        }
+    private void closeKeyboard() {
+        InputMethodManager inputManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        assert inputManager != null;
+        assert getCurrentFocus() != null;
+        inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
     @OnClick(R.id.hashButton)
-    public void hashButtonClick(View v) {
-        hideKeyboard(v);
+    public void hashButtonClick() {
         if(fileButton.getVisibility() == View.VISIBLE) {
             ContentResolver cr = getContentResolver();
             HashRunnable hasher = new HashRunnable(hashtype, cr, this);
@@ -226,6 +191,9 @@ public class Main extends AppCompatActivity implements MainView {
             HashRunnable hasher = new HashRunnable(hashtype, toHash, this);
             hasher.execute(fileURI);
         }
+        closeKeyboard();
+        hashCmpButton.setText(R.string.compare_hashes);
+        hashCmpButton.setTextColor(Color.WHITE);
     }
 
     private void compareHashes(){
@@ -233,23 +201,23 @@ public class Main extends AppCompatActivity implements MainView {
         Context context = getApplicationContext();
 
         if(!clipboard.hasPrimaryClip()){
-            toast = Toast.makeText(context, getString(R.string.emptyClipboard), Toast.LENGTH_SHORT);
+            toast = Toast.makeText(context, R.string.emptyClipboard, Toast.LENGTH_SHORT);
             toast.show();
             return;
         }
 
-        hashCmpText.setText(clipboard.getPrimaryClip()
+        hashCmpButton.setText(clipboard.getPrimaryClip()
                 .getItemAt(0).coerceToText(getApplicationContext()).toString().toLowerCase());
 
-        if(hashCmpText.getText().toString().toUpperCase()
+        if(hashCmpButton.getText().toString().toUpperCase()
                 .equals(hashOutput.getText().toString().toUpperCase())) {
             toast = Toast.makeText(context, getString(R.string.hashesMatch), Toast.LENGTH_SHORT);
-            hashCmpText.setTextColor(Color.GREEN);
+            hashCmpButton.setTextColor(Color.GREEN);
             toast.show();
         }
         else {
             toast = Toast.makeText(context, getString(R.string.hashesDontMatch), Toast.LENGTH_SHORT);
-            hashCmpText.setTextColor(Color.RED);
+            hashCmpButton.setTextColor(Color.RED);
             toast.show();
         }
 
@@ -285,8 +253,7 @@ public class Main extends AppCompatActivity implements MainView {
             // Check for the freshest data.
             try {
                 getContentResolver().takePersistableUriPermission(fileURI,
-                        (Intent.FLAG_GRANT_READ_URI_PERMISSION
-                                | Intent.FLAG_GRANT_WRITE_URI_PERMISSION));
+                        Intent.FLAG_GRANT_READ_URI_PERMISSION);
             }
             catch (SecurityException e) {
                 Toast toast = Toast.makeText(getApplicationContext(),
@@ -318,6 +285,6 @@ public class Main extends AppCompatActivity implements MainView {
 
     public void displayResults(String results) {
         progress.setVisibility(View.INVISIBLE);
-        hashOutput.setText(results);
+        hashOutput.setText(results.toUpperCase());
     }
 }
