@@ -1,6 +1,6 @@
 package com.misker.mike.hasher.hashers;
 
-class HasherFactory {
+public class HasherFactory {
 
     public static Hasher createHasher(String hasherType) {
         Hasher hasher;

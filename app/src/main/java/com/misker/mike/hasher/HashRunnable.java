@@ -5,15 +5,15 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.codec.digest.DigestUtils;
+import com.misker.mike.hasher.hashers.Hasher;
+import com.misker.mike.hasher.hashers.HasherFactory;
+
+import org.apache.commons.io.IOUtils;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.zip.Adler32;
-import java.util.zip.CRC32;
-import java.util.zip.CheckedInputStream;
+import java.io.StringWriter;
 
 
 /**
@@ -24,7 +24,6 @@ import java.util.zip.CheckedInputStream;
 class HashRunnable extends AsyncTask<Uri, Void, String> {
 
     private final MainView mainView;
-    private String output = "Nice job buddy, you broke my code!";
     private final String type;
     private String toHash;
     private ContentResolver cr;
@@ -54,6 +53,7 @@ class HashRunnable extends AsyncTask<Uri, Void, String> {
 
     @Override
     protected String doInBackground(Uri... uris) {
+        String output = "Nice job buddy, you broke my code!";
         if(cr != null) {
             try {
                 InputStream is = cr.openInputStream(uris[0]);
@@ -61,86 +61,14 @@ class HashRunnable extends AsyncTask<Uri, Void, String> {
                 if(is == null)
                     throw new IOException();
 
-                switch (type) {
-                    case "MD5":
-                        output = new String(Hex.encodeHex(DigestUtils.md5(is)));
-                        break;
-                    case "SHA1":
-                        output = new String(Hex.encodeHex(DigestUtils.sha1(is)));
-                        break;
-                    case "SHA256":
-                        output = new String(Hex.encodeHex(DigestUtils.sha256(is)));
-                        break;
-                    case "SHA384":
-                        output = new String(Hex.encodeHex(DigestUtils.sha384(is)));
-                        break;
-                    case "CRC32b": {
-                        //Thanks to Redditor /u/thurask for finding a bug here!
-                        CheckedInputStream cis = new CheckedInputStream(is, new CRC32());
-                        byte[] tempBuf = new byte[128];
-                        //noinspection StatementWithEmptyBody
-                        while (cis.read(tempBuf) >= 0);
-                        long checksum = cis.getChecksum().getValue();
-                        output = Long.toHexString(checksum);
-                        break;
-                    }
-                    case "Adler32": {
-                        CheckedInputStream cis = new CheckedInputStream(is, new Adler32());
-                        byte[] tempBuf = new byte[128];
-                        //noinspection StatementWithEmptyBody
-                        while (cis.read(tempBuf) >= 0);
-                        long checksum = cis.getChecksum().getValue();
-                        output = Long.toHexString(checksum);
-                        break;
-                    }
-                    default:
-                        output = new String(Hex.encodeHex(DigestUtils.sha512(is)));
-                        break;
-                }
+                output = createHash(type, is);
             } catch (IOException e) {
                 Log.e("FileDebug", e.getMessage());
             }
-        }
-        else{
+        } else {
             try {
                 InputStream is = new ByteArrayInputStream(toHash.getBytes("UTF-8"));
-
-                switch (type) {
-                    case "MD5":
-                        output = new String(Hex.encodeHex(DigestUtils.md5(is)));
-                        break;
-                    case "SHA1":
-                        output = new String(Hex.encodeHex(DigestUtils.sha1(is)));
-                        break;
-                    case "SHA256":
-                        output = new String(Hex.encodeHex(DigestUtils.sha256(is)));
-                        break;
-                    case "SHA384":
-                        output = new String(Hex.encodeHex(DigestUtils.sha384(is)));
-                        break;
-                    case "CRC32b": {
-                        //Thanks to Redditor /u/thurask for finding a bug here!
-                        CheckedInputStream cis = new CheckedInputStream(is, new CRC32());
-                        byte[] tempBuf = new byte[128];
-                        //noinspection StatementWithEmptyBody
-                        while (cis.read(tempBuf) >= 0);
-                        long checksum = cis.getChecksum().getValue();
-                        output = Long.toHexString(checksum);
-                        break;
-                    }
-                    case "Adler32": {
-                        CheckedInputStream cis = new CheckedInputStream(is, new Adler32());
-                        byte[] tempBuf = new byte[128];
-                        //noinspection StatementWithEmptyBody
-                        while (cis.read(tempBuf) >= 0);
-                        long checksum = cis.getChecksum().getValue();
-                        output = Long.toHexString(checksum);
-                        break;
-                    }
-                    default:
-                        output = new String(Hex.encodeHex(DigestUtils.sha512(is)));
-                        break;
-                }
+                output = createHash(type, is);
             }
             catch (IOException e){
                 Log.e("FileDebug", e.getMessage());
@@ -148,6 +76,18 @@ class HashRunnable extends AsyncTask<Uri, Void, String> {
         }
 
         return output;
+    }
+
+    private String createHash(String hasherType, InputStream is) throws IOException {
+        String input = convertInputStreamToString(is);
+        Hasher hasher = HasherFactory.createHasher(hasherType);
+        return hasher.hash(input);
+    }
+
+    private String convertInputStreamToString(InputStream is) throws IOException {
+        StringWriter writer = new StringWriter();
+        IOUtils.copy(is, writer, "UTF-8");
+        return writer.toString();
     }
 
 }
