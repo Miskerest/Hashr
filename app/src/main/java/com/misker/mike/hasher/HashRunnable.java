@@ -8,12 +8,9 @@ import android.util.Log;
 import com.misker.mike.hasher.hashers.Hasher;
 import com.misker.mike.hasher.hashers.HasherFactory;
 
-import org.apache.commons.io.IOUtils;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringWriter;
 
 
 /**
@@ -78,16 +75,9 @@ class HashRunnable extends AsyncTask<Uri, Void, String> {
         return output;
     }
 
-    private String createHash(String hasherType, InputStream is) throws IOException {
-        String input = convertInputStreamToString(is);
+    private String createHash(String hasherType, InputStream inputStream) throws IOException {
         Hasher hasher = HasherFactory.createHasher(hasherType);
-        return hasher.hash(input);
-    }
-
-    private String convertInputStreamToString(InputStream is) throws IOException {
-        StringWriter writer = new StringWriter();
-        IOUtils.copy(is, writer, "UTF-8");
-        return writer.toString();
+        return hasher.hash(inputStream);
     }
 
 }
