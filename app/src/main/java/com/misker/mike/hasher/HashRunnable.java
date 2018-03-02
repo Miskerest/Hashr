@@ -26,13 +26,13 @@ class HashRunnable extends AsyncTask<Uri, Void, String> {
     private ContentResolver cr;
 
 
-    public HashRunnable(String hashtype, ContentResolver cr, MainView mainView){
+    HashRunnable(String hashtype, ContentResolver cr, MainView mainView){
         type = hashtype;
         this.cr = cr;
         this.mainView = mainView;
     }
 
-    public HashRunnable(String hashtype, String toHash, MainView mainView){
+    HashRunnable(String hashtype, String toHash, MainView mainView){
         type = hashtype;
         this.toHash = toHash;
         this.mainView = mainView;
