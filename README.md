@@ -9,7 +9,7 @@ It's designed to be simple, fast, and easy to use. This is my first published An
 Requires Android 4.4+
 
 ### Sources
-<a href='https://play.google.com/store/apps/details?id=com.misker.mike.hasher&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img width=200 height=80 alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'/></a>
+<a href='https://play.google.com/store/apps/details?id=com.misker.mike.hasher'><img width=200 alt='Get it on Google Play' src='./google-play-badge.png'/></a>
 * Pre-compiled apks are under [Releases](https://github.com/Miskerest/Hashr/releases)
 * [Amazon App Store](http://a.co/dk4aA1O)
 
