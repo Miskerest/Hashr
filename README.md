@@ -9,7 +9,8 @@ It's designed to be simple, fast, and easy to use. This is my first published An
 Requires Android 4.4+
 
 ### Sources
-<a href='https://play.google.com/store/apps/details?id=com.misker.mike.hasher'><img width=200 alt='Get it on Google Play' src='./google-play-badge.png'/></a>
+
+* [Google Play](https://play.google.com/store/apps/details?id=com.misker.mike.hasher)
 * Pre-compiled apks are under [Releases](https://github.com/Miskerest/Hashr/releases)
 * [Amazon App Store](http://a.co/dk4aA1O)
 
