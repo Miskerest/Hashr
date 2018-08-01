@@ -1,0 +1,68 @@
+==================================================================
+https://keybase.io/misker
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://hashr.pw
+  * I am misker (https://keybase.io/misker) on keybase.
+  * I have a public key with fingerprint F8CB 82D3 F5DD F588 3B9F  F4D8 B2BC 3C95 9A50 70FE
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "010110a2eb5c73319754067d132ff1d02e0b887684e4a333010947ca92b9e0dbde1c0a",
+      "fingerprint": "f8cb82d3f5ddf5883b9ff4d8b2bc3c959a5070fe",
+      "host": "keybase.io",
+      "key_id": "b2bc3c959a5070fe",
+      "kid": "010110a2eb5c73319754067d132ff1d02e0b887684e4a333010947ca92b9e0dbde1c0a",
+      "uid": "351ba891580b01fd958df935239bd419",
+      "username": "misker"
+    },
+    "service": {
+      "hostname": "hashr.pw",
+      "protocol": "https:"
+    },
+    "type": "web_service_binding",
+    "version": 1
+  },
+  "ctime": 1523054465,
+  "expire_in": 157680000,
+  "prev": "6168b924b5412b4c2ae4b01aee476b3e76fb90248519966fe384e054957f9954",
+  "seqno": 91,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+-----BEGIN PGP MESSAGE-----
+Version: Keybase OpenPGP v2.0.76
+Comment: https://keybase.io/crypto
+
+yMInAnicrVJbSBVBGF4tS63QUiPCLi49ZFns7Ozs7pzooatdkOzykFEddnZnj9vx
+nD3t7tE0rU5YopBGRUn11JXIwm7Qk3Y92gUpsCgKoqyoh6SELhJFs2JvPTYvw/zz
+fd//fT//nXEjuMyUVxOTfH7pu2kpD24eiHMbur4ntvPENqr5wHY+TIcuWmFQ1wuG
+LYMP8AIQABA0kRKkKxACrCBJkBUDQNE0gSGIVCCqqsiqRCUNQsjwWFJ0DYsEU8Eg
+BgW6oPFFvGlFQ9SJOVbUY7KmqhNVNKCJDMNEqgoJNk3JUIlIdKhjhDUkKIJJGbHc
+dn0GM0c0l861bFZjj+CQvX/g/7Pv+JAcRIBoKgZIFYgATAMj1TAxRCLExJAA9oEu
+daJahDJ0xHLD1OHrinhWq7R06o/VzzH8X6655c7cWBVjxRzbs3W7wq96XswN+Cyv
+OubDqigJDgsEiRU12AQZo5I6rmVH+QBgSN2zfEXAjAhIkmRUxNNtMcuhQctHIBZQ
+YMfvQyuZpAxklWBRIkgCIpF0UaMSC6RRKikygVSRTYIFUVIRwFiWTQrZgJgyRoqJ
+MZJ4P9LWqM0HMGA+tRDTdK1QVPPiDuXrbt3YOJJLyeRGpaX6q8VlZmT/XbhDY9O5
+1trJqYWRjpk9J7K3DBwKXct78fjujOo335yGZOka8fi5l0uyTg9cHFxS8LpvGVE+
+F56uiqH1s6+3l/1QrzzJuV88/XZJw+GGtQf7EotKe0edLym+1HJyR2L1nsCkL1+z
+9O72xJTnV7vSJvzqPLvr5ouaU60j3D3eVzVj1o1PC/aPjzVxhd2Ta5cPwoKps7Ny
+c7i2xrXhC1XRlcf27czdvTfSRGD8+7P+moLQ7+Y1H9zWxpp7/YtzIuWpOH1TcsU6
+NLrdOboq0jIQOpDVWwbf9m35eWRzTWHGyPeB/Pkfpa4x787WdzzckSiof/qI23C5
+PykvXRiw56nxOelncrJ72vKmdDb/AeitNfs=
+=uo6E
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/misker
+
+==================================================================
