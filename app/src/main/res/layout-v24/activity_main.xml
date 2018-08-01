@@ -130,7 +130,6 @@
         android:hint="@string/textToHash"
         android:imeOptions="actionDone"
         android:inputType="textPersonName"
-        android:text="@string/textToHash"
         android:textAlignment="center" />
 
 </RelativeLayout>

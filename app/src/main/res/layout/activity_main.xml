@@ -121,17 +121,17 @@
 
     <EditText
         android:id="@+id/hashText"
-        android:hint="@+id/hashText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/hashSelectionSpinner"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="7dp"
         android:ems="10"
+        android:hint="@+id/textToHash"
         android:imeOptions="actionDone"
-        android:privateImeOptions="actionDone"
         android:inputType="textPersonName"
-        android:text="@string/textToHash"
+        android:privateImeOptions="actionDone"
+        android:singleLine="true"
         android:textAlignment="center" />
 
 </RelativeLayout>
