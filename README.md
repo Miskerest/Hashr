@@ -1,5 +1,3 @@
-{% include advertisements.html %}
-
 # About
 
 I made this app because I tried to download two separate apps from the Play Store to validate a system image's checksum. Neither worked, so I made my own!
