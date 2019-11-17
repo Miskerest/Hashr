@@ -1,29 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.misker.mike.hasher">
 
-    <uses-permission android:name="android.permission.INTERNET" android:required="false"/>
-    <uses-permission android:name="android.permission.MEDIA_CONTENT_CONTROL" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="27" android:required="false"/>
+    <uses-permission
+        android:name="android.permission.INTERNET"
+        android:required="false" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-    <uses-feature android:name="android.hardware.screen.portrait" android:required="false"/>
+    <uses-sdk
+        android:maxSdkVersion="30"
+        android:required="false" />
+
+    <uses-feature
+        android:name="android.hardware.screen.portrait"
+        android:required="false" />
 
     <application
         android:allowBackup="false"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/icon"
         android:label="@string/Hashr"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.misker.mike.hasher.Main" android:windowSoftInputMode="stateHidden">
+        <activity
+            android:name="com.misker.mike.hasher.Main"
+            android:windowSoftInputMode="stateHidden">
+
+            <tools:validation testUrl="https://web.misker.me/hashr" />
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="https"
+                    android:host="web.misker.me"
+                    android:pathPattern="/hashr" />
+            </intent-filter>
 
         </activity>
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-5863757662079397~1363106066" />
+
 
     </application>
 

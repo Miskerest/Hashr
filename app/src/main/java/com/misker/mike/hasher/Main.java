@@ -8,9 +8,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -22,13 +19,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.tabs.TabLayout;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Objects;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -77,15 +78,38 @@ public class Main extends AppCompatActivity implements MainView {
     @BindString(R.string.banner_ad_unit_id)
     String ad_unit_id;
 
+    @BindView(R.id.shareHashBtn)
+    FloatingActionButton shareHashBtn;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        //ad init
+        MobileAds.initialize(this, ad_unit_id);
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
         setupFileHashPane(getApplicationContext());
 
     }
+
+
+    private void showFileViews(){
+        fileButton.setVisibility(View.VISIBLE);
+        hashText.setVisibility(View.INVISIBLE);
+        hashButton.setEnabled(false);
+    }
+
+    private void showTextViews() {
+        fileButton.setVisibility(View.INVISIBLE);
+        hashText.setVisibility(View.VISIBLE);
+        hashButton.setEnabled(true);
+    }
+
     private void setupFileHashPane(Context context){
 
         clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
@@ -103,17 +127,18 @@ public class Main extends AppCompatActivity implements MainView {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
 
-                closeKeyboard();
+                try {
+                    closeKeyboard();
+                }
+                catch (NullPointerException e){
+                 Log.e("CloseKeyboard NPE", Objects.requireNonNull(e.getMessage()));
+                }
 
                 if(tab.getPosition() == 1) {
-                    fileButton.setVisibility(View.INVISIBLE);
-                    hashText.setVisibility(View.VISIBLE);
-                    hashButton.setEnabled(true);
+                    showTextViews();
                 }
                 else {
-                    fileButton.setVisibility(View.VISIBLE);
-                    hashText.setVisibility(View.INVISIBLE);
-                    hashButton.setEnabled(false);
+                    showFileViews();
                 }
 
             }
@@ -134,31 +159,14 @@ public class Main extends AppCompatActivity implements MainView {
         hashCmpButton.setText(getString(R.string.compare_hashes));
         hashButton.setEnabled(false);
         progress.setVisibility(View.INVISIBLE);
-
-        //ad init
-        AdView adView = new AdView(this);
-        adView.setAdSize(AdSize.BANNER);
-        adView.setAdUnitId(ad_unit_id);
-
-        MobileAds.initialize(this, ad_unit_id);
-        AdRequest adRequest = new AdRequest.Builder().setGender(AdRequest.GENDER_MALE).build();
-        mAdView.loadAd(adRequest);
+        shareHashBtn.hide();
 
         //Done setting up
 
-        fileButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                showFileChooser();
-            }
-        });
+        fileButton.setOnClickListener(v -> showFileChooser());
 
         // handlers for comparing hash text when hashCmpText is clicked
-        hashCmpButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                compareHashes();
-            }
-        });
+        hashCmpButton.setOnClickListener(view -> compareHashes());
 
         selector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
 
@@ -174,8 +182,8 @@ public class Main extends AppCompatActivity implements MainView {
 
     private void closeKeyboard() {
         InputMethodManager inputManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-        assert inputManager != null;
-        assert getCurrentFocus() != null;
+        if (inputManager == null || getCurrentFocus() == null)
+            return;
         inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
@@ -194,6 +202,15 @@ public class Main extends AppCompatActivity implements MainView {
         closeKeyboard();
         hashCmpButton.setText(R.string.compare_hashes);
         hashCmpButton.setTextColor(Color.WHITE);
+        shareHashBtn.show();
+    }
+
+    @OnClick(R.id.shareHashBtn)
+    public void shareHash() {
+        Intent sendIntent = new Intent(Intent.ACTION_SEND);
+        sendIntent.setType("text/plain");
+        sendIntent.putExtra(Intent.EXTRA_TEXT, hashOutput.getText().toString());
+        startActivity(Intent.createChooser(sendIntent, "Share this hash..."));
     }
 
     private void compareHashes(){
@@ -206,7 +223,7 @@ public class Main extends AppCompatActivity implements MainView {
             return;
         }
 
-        hashCmpButton.setText(clipboard.getPrimaryClip()
+        hashCmpButton.setText(Objects.requireNonNull(clipboard.getPrimaryClip())
                 .getItemAt(0).coerceToText(getApplicationContext()).toString().toLowerCase());
 
         if(hashCmpButton.getText().toString().toUpperCase()
@@ -271,7 +288,7 @@ public class Main extends AppCompatActivity implements MainView {
 
             }
             catch (FileNotFoundException e) {
-                Log.e("FileDebug", e.getMessage());
+                Log.e("FileDebug", Objects.requireNonNull(e.getMessage()));
             }
 
 

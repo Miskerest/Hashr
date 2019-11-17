@@ -1,9 +1,10 @@
 package com.misker.mike.hasher;
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 
 /**
  * Created by Mike on 3/3/17.
@@ -35,12 +36,10 @@ class FixedTabsPagerAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
 
-        switch(position) {
-            case 1:
-                return context.getResources().getString(R.string.TEXT);
-            default:
-                return context.getResources().getString(R.string.FILE);
+        if (position == 1) {
+            return context.getResources().getString(R.string.TEXT);
         }
+        return context.getResources().getString(R.string.FILE);
     }
 
 }

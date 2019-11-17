@@ -1,14 +1,15 @@
 package com.misker.mike.hasher;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.Locale;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 /**
  * Created by Mike on 3/3/17.
@@ -22,7 +23,7 @@ public class PageFragment extends Fragment {
     public PageFragment() {
     }
 
-    public static PageFragment newInstance(int page) {
+    static PageFragment newInstance(int page) {
         PageFragment fragment = new PageFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_PAGE_NUMBER, page);

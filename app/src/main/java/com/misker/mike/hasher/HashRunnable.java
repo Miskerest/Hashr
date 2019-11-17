@@ -11,6 +11,8 @@ import com.misker.mike.hasher.hashers.HasherFactory;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 
 
 /**
@@ -60,15 +62,15 @@ class HashRunnable extends AsyncTask<Uri, Void, String> {
 
                 output = createHash(type, is);
             } catch (IOException e) {
-                Log.e("FileDebug", e.getMessage());
+                Log.e("FileDebug", Objects.requireNonNull(e.getMessage()));
             }
         } else {
             try {
-                InputStream is = new ByteArrayInputStream(toHash.getBytes("UTF-8"));
+                InputStream is = new ByteArrayInputStream(toHash.getBytes(StandardCharsets.UTF_8));
                 output = createHash(type, is);
             }
-            catch (IOException e){
-                Log.e("FileDebug", e.getMessage());
+            catch (IOException  e){
+                Log.e("FileDebug", Objects.requireNonNull(e.getMessage()));
             }
         }
 

@@ -13,7 +13,6 @@
     android:windowSoftInputMode="adjustNothing">
 
     <com.google.android.gms.ads.AdView
-        xmlns:ads="http://schemas.android.com/apk/res-auto"
         android:id="@+id/adView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -24,7 +23,7 @@
         ads:adUnitId="@string/banner_ad_unit_id" />
 
 
-    <android.support.design.widget.TabLayout
+    <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -32,12 +31,12 @@
         app:tabGravity="fill"
         app:tabMode="fixed" />
 
-    <android.support.v4.view.ViewPager
+    <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="0px"
         android:background="@android:color/white">
-    </android.support.v4.view.ViewPager>
+    </androidx.viewpager.widget.ViewPager>
 
     <TextView
         android:id="@+id/hashOutput"
@@ -133,5 +132,14 @@
         android:privateImeOptions="actionDone"
         android:singleLine="true"
         android:textAlignment="center" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/shareHashBtn"
+        android:layout_width="125dp"
+        android:layout_height="152dp"
+        android:layout_alignBottom="@+id/adView"
+        android:layout_alignEnd="@+id/tabs"
+        android:clickable="true"
+        android:focusable="true"/>
 
 </RelativeLayout>
